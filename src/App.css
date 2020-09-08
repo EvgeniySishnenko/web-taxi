@@ -1,0 +1,21 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+.bg {
+  width: 100%;
+  /* height: 100vh; */
+  background-size: cover;
+  background-image: url(./images/login-background.jpg);
+}
+.h-100vh {
+  width: 100%;
+  height: 100vh;
+}
+.bg-form {
+  background-color: white;
+  border-radius: 10px;
+}
+.flex-end {
+  justify-content: space-between;
+}
