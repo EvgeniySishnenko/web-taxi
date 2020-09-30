@@ -1,32 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { BrowserRouter as Router } from "react-router-dom";
 import "antd/dist/antd.css";
-import {
-  BrowserRouter as Router,
-  Redirect,
-  Route,
-  Switch,
-} from "react-router-dom";
+import { message } from "antd";
 import "./App.css";
-import Header from "./Components/Header/Header";
-import LoginForm from "./Components/Login/LoginForm";
-import Profile from "./Components/Profile/Profile";
-import AuthForm from "./Components/Login/AuthForm";
-import Map from "./Components/Map/Map";
+import { useRoutes } from "./routes";
 function App() {
+  const { token } = useSelector((state) => state.auth);
+  const { card } = useSelector((state) => state.card);
+
+  const isAuthenticated = !!token;
+  const routes = useRoutes(isAuthenticated);
+  useEffect(() => {
+    if (!card && isAuthenticated) {
+      message.warning("Заполните данные карты в профиле");
+    }
+  }, []);
   return (
     <div className="App">
-      <Router>
-        <Header />
-        <Switch>
-          {/* <Redirect exact from="/" to="/map" /> */}
-          <Redirect exact from="/" to="/login" />
-          <Route path="/login" component={LoginForm} />
-          <Route path="/auth" component={AuthForm} />
-          <Route path="/profile" component={Profile} />
-          {/* <PrivateRoute path="/profile" to="/login" component={ProfileForm} />  */}
-          <Route path="/map" to="/login" component={Map} />
-        </Switch>
-      </Router>
+      <Router>{routes}</Router>
     </div>
   );
 }
